@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "food",
+  "ingredients": [
+    {
+      "item": "strawberry_fields:cheems_full"
+    }
+  ],
+  "result": {
+    "count": 3,
+    "item": "strawberry_fields:cheems"
+  }
+}
