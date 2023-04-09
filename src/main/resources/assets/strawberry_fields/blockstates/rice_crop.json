@@ -1,0 +1,8 @@
+{
+  "variants": {
+    "age=0": { "model": "strawberry_fields:block/rice_0" },
+    "age=1": { "model": "strawberry_fields:block/rice_1" },
+    "age=2": { "model": "strawberry_fields:block/rice_2" },
+    "age=3": { "model": "strawberry_fields:block/rice_3" }
+  }
+}
