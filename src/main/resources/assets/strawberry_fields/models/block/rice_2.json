@@ -1,6 +1,8 @@
 {
   "parent": "minecraft:block/cross",
   "textures": {
-    "cross": "strawberry_fields:crops/rice_2"
-  }
+    "cross": "strawberry_fields:block/rice_2",
+    "particle": "strawberry_fields:block/rice_2"
+  },
+  "render_type": "cutout"
 }

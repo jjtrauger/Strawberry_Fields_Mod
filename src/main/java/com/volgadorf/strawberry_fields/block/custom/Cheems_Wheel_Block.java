@@ -59,6 +59,9 @@ public class Cheems_Wheel_Block extends Block {
             else{
                 player.drop(itemStack, false);
             }
+            //remove one durability from knife
+            player.getMainHandItem().hurt(1, p_51186_.getRandom(), null);
+
 
             //variable to determine what bite we are on
             int i = blockState.getValue(CHEEMS_BITES);

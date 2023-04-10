@@ -52,31 +52,23 @@ public class Main {
 
     }
 
-   /** private void addCreative(CreativeModeTabEvent.BuildContents event) {
-        if(event.getTab() == CreativeModeTabs.FOOD_AND_DRINKS) {
-            event.accept(ModFoodItems.PAST_MILK);
-            event.accept(ModFoodItems.CHEEMS);
-        }
-
-        if(event.getTab() == ModCreativeModeTabs.VOLG_TAB) {
-            event.accept(ModFoodItems.PAST_MILK);
-            event.accept(ModFoodItems.CHEEMS);
-            event.accept(ModBlocks.CHEEMS_FULL);
-        }
-    } **/
-
     @SubscribeEvent
     public void buildContents(CreativeModeTabEvent.BuildContents event) {
         // Add to ingredients tab
         if (event.getTab() == CreativeModeTabs.FOOD_AND_DRINKS) {
             event.accept(ModFoodItems.PAST_MILK);
+            event.accept(ModFoodItems.CHEEMS);
             event.accept(ModBlocks.CHEEMS_FULL); // Takes in an ItemLike, assumes block has registered item
             event.accept(ModBlocks.CUTTING_TABLE);
+            event.accept(ModFoodItems.RICE);
+            event.accept(ModFoodItems.RICE_SEED);
         }
         if(event.getTab() == ModCreativeModeTabs.VOLG_TAB) {
             event.accept(ModFoodItems.PAST_MILK);
             event.accept(ModFoodItems.CHEEMS);
             event.accept(ModBlocks.CHEEMS_FULL);
+            event.accept(ModFoodItems.RICE);
+            event.accept(ModFoodItems.RICE_SEED);
         }
         if(event.getTab() == ModCreativeModeTabs.VOLG_TAB2) {
             event.accept(ModFoodItems.KNIFE);
