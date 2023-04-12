@@ -1,0 +1,18 @@
+{
+  "variants": {
+    "facing=east": {
+      "model": "strawberry_fields:block/whetstone"
+    },
+    "facing=north": {
+      "model": "strawberry_fields:block/whetstone",
+      "y": 90
+    },
+    "facing=south": {
+      "model": "strawberry_fields:block/whetstone",
+      "y": 90
+    },
+    "facing=west": {
+      "model": "strawberry_fields:block/whetstone"
+    }
+  }
+}

@@ -1,6 +1,7 @@
 package com.volgadorf.strawberry_fields.item.custom;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.sounds.SoundEvents;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.Entity;
@@ -8,6 +9,7 @@ import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.item.SwordItem;
 import net.minecraft.world.item.Tier;
 import net.minecraft.world.item.context.UseOnContext;
@@ -82,12 +84,17 @@ public class KnifeItem extends SwordItem {
         BlockPos blockpos = pContext.getClickedPos();
         BlockState blockstate = level.getBlockState(blockpos);
         Block block = blockstate.getBlock();
+        Player player = pContext.getPlayer();
 
         if (block.equals(Blocks.PUMPKIN)) {
             // Replace the pumpkin block with a carved pumpkin block
             BlockState carvedPumpkinState = Blocks.CARVED_PUMPKIN.defaultBlockState()
                     .setValue(CarvedPumpkinBlock.FACING, pContext.getClickedFace());
             level.setBlockAndUpdate(blockpos, carvedPumpkinState);
+            level.playSound(player, blockpos, SoundEvents.PUMPKIN_CARVE, net.minecraft.sounds.SoundSource.BLOCKS, 1.0F, 1.0F);
+            ItemStack itemStack = new ItemStack(Items.PUMPKIN_SEEDS, 8);
+            assert player != null;
+            player.drop(itemStack, false);
 
             // Consume one use of the knife item
             ItemStack itemstack = pContext.getItemInHand();

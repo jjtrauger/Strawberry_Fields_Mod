@@ -4,6 +4,7 @@ import com.volgadorf.strawberry_fields.Main;
 import com.volgadorf.strawberry_fields.block.custom.Cheems_Wheel_Block;
 import com.volgadorf.strawberry_fields.block.custom.CuttingTableBlock;
 import com.volgadorf.strawberry_fields.block.custom.RiceCropBlock;
+import com.volgadorf.strawberry_fields.block.custom.WhetstoneBlock;
 import com.volgadorf.strawberry_fields.item.ModCreativeModeTabs;
 import com.volgadorf.strawberry_fields.item.ModFoodItems;
 import net.minecraft.world.item.BlockItem;
@@ -30,7 +31,11 @@ public class ModBlocks {
 
     public static final RegistryObject<Block> CUTTING_TABLE = registerBlock("cutting_table",
             () -> new CuttingTableBlock(BlockBehaviour.Properties.of(Material.BAMBOO)
-                    .strength(0.5f).noOcclusion().noParticlesOnBreak()), ModCreativeModeTabs.VOLG_TAB);
+                    .strength(0.5f).noOcclusion().requiresCorrectToolForDrops().noParticlesOnBreak()), ModCreativeModeTabs.VOLG_TAB);
+
+    public static final RegistryObject<Block> WHETSTONE = registerBlock("whetstone",
+            () -> new WhetstoneBlock(BlockBehaviour.Properties.of(Material.STONE)
+                    .strength(1f).noOcclusion().requiresCorrectToolForDrops()), ModCreativeModeTabs.VOLG_TAB2);
 
     public static final RegistryObject<Block> RICE_CROP = BLOCKS.register("rice_crop",
             () -> new RiceCropBlock(BlockBehaviour.Properties.copy(Blocks.WHEAT)));
