@@ -4,6 +4,7 @@ package com.volgadorf.strawberry_fields;
 import com.mojang.logging.LogUtils;
 import com.volgadorf.strawberry_fields.block.ModBlocks;
 import com.volgadorf.strawberry_fields.block.entity.ModBlockEntities;
+import com.volgadorf.strawberry_fields.enchantment.ModEnchantments;
 import com.volgadorf.strawberry_fields.item.ModCreativeModeTabs;
 import com.volgadorf.strawberry_fields.item.ModFoodItems;
 import com.volgadorf.strawberry_fields.recipe.ModRecipes;
@@ -39,6 +40,7 @@ public class Main {
         ModMenuTypes.register(modEventBus);
 
         ModRecipes.register(modEventBus);
+        ModEnchantments.register(modEventBus);
 
         modEventBus.addListener(this::commonSetup);
 

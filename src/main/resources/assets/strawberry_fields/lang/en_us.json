@@ -10,6 +10,8 @@
   "item.strawberry_fields.rice": "Uncooked Rice",
   "block.strawberry_fields.rice_crop": "Rice Seed",
 
+  "enchantment.strawberry_fields.frost_aspect": "Frost Aspect",
+
   "creativemodetab.food_tab": "Volgy Foods",
   "creativemodetab.kitchen_tools_tab": "Volgy Tools"
 }
