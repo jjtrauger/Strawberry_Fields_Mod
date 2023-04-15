@@ -76,6 +76,7 @@ public class Main {
         }
         if(event.getTab() == ModCreativeModeTabs.VOLG_TAB2) {
             event.accept(ModFoodItems.KNIFE);
+            event.accept(ModFoodItems.OFWB);
             event.accept(ModBlocks.CUTTING_TABLE);
             event.accept(ModBlocks.WHETSTONE);
         }

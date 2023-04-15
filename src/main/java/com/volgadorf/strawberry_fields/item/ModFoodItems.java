@@ -3,8 +3,10 @@ package com.volgadorf.strawberry_fields.item;
 import com.volgadorf.strawberry_fields.Main;
 import com.volgadorf.strawberry_fields.block.ModBlocks;
 import com.volgadorf.strawberry_fields.item.custom.KnifeItem;
+import com.volgadorf.strawberry_fields.item.custom.OverflowingWaterBucketItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.PlaceOnWaterBlockItem;
+import net.minecraft.world.item.Rarity;
 import net.minecraft.world.item.Tiers;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
@@ -31,6 +33,9 @@ public class ModFoodItems {
             () -> new Item(new Item.Properties().stacksTo(64)));
     public static final RegistryObject<Item> KNIFE = ITEMS.register("knife",
             () -> new KnifeItem(Tiers.IRON, 2, -1.4f, new Item.Properties().durability(30)));
+
+    public static final RegistryObject<Item> OFWB = ITEMS.register("over_flowing_water_bucket",
+            () -> new OverflowingWaterBucketItem(new Item.Properties().stacksTo(1).rarity(Rarity.RARE)));
 
 
 
