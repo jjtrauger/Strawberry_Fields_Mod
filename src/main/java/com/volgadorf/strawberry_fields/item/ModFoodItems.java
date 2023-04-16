@@ -43,19 +43,11 @@ public class ModFoodItems {
     public static final RegistryObject<Item> SUSHI = ITEMS.register("sushi",
             () -> new Item(new Item.Properties().stacksTo(64).food(Foods.SUSHI_FOOD)));
 
-    public static final RegistryObject<Item> COOKED_RICE = ITEMS.register("cooked_rice",
-            () -> new Item(new Item.Properties().stacksTo(64).food(Foods.COOKED_RICE_FOOD)));
-
     public static class Foods{
         public static final FoodProperties SUSHI_FOOD = new FoodProperties.Builder()
                 .nutrition(4)
                 .saturationMod(1.0f)
                 .effect( () -> new MobEffectInstance(MobEffects.WATER_BREATHING, 400, 1), 1.0f)
-                .build();
-
-        public static final FoodProperties COOKED_RICE_FOOD = new FoodProperties.Builder()
-                .nutrition(1)
-                .saturationMod(0.5f)
                 .build();
     }
 

@@ -13,8 +13,6 @@ import net.minecraftforge.fml.common.Mod;
 public class ModCreativeModeTabs {
     public static CreativeModeTab VOLG_TAB;
     public static CreativeModeTab VOLG_TAB2;
-    public static CreativeModeTab VOLG_TAB3;
-
 
     @SubscribeEvent
     public static void registerCreativeModeTabs(CreativeModeTabEvent.Register event) {
@@ -25,9 +23,5 @@ public class ModCreativeModeTabs {
         VOLG_TAB2 = event.registerCreativeModeTab(new ResourceLocation(Main.MOD_ID, "kitchen_tools_tab"),
                 builder -> builder.icon(() -> new ItemStack(ModFoodItems.KNIFE.get()))
                         .title(Component.translatable("creativemodetab.kitchen_tools_tab")));
-
-        VOLG_TAB3 = event.registerCreativeModeTab(new ResourceLocation(Main.MOD_ID, "magic_stuff_tab"),
-                builder -> builder.icon(() -> new ItemStack(ModFoodItems.OFWB.get()))
-                        .title(Component.translatable("creativemodetab.magic_stuff_tab")));
     }
 }

@@ -74,16 +74,12 @@ public class Main {
             event.accept(ModFoodItems.RICE);
             event.accept(ModFoodItems.RICE_SEED);
             event.accept(ModFoodItems.SUSHI);
-            event.accept(ModFoodItems.COOKED_RICE);
         }
         if(event.getTab() == ModCreativeModeTabs.VOLG_TAB2) {
             event.accept(ModFoodItems.KNIFE);
+            event.accept(ModFoodItems.OFWB);
             event.accept(ModBlocks.CUTTING_TABLE);
             event.accept(ModBlocks.WHETSTONE);
-        }
-
-        if(event.getTab() == ModCreativeModeTabs.VOLG_TAB3) {
-            event.accept(ModFoodItems.OFWB);
         }
     }
 

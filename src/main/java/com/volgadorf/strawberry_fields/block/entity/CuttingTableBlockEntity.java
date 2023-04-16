@@ -170,7 +170,7 @@ public class CuttingTableBlockEntity extends BlockEntity implements MenuProvider
             if (fullslot < 3){
                 //if only 3 slots taken, check that earliest slot is fish, slot below it is rice, slot below is dried kelp
                 if (entity.itemHandler.getStackInSlot(fullslot).getItem().equals(Items.TROPICAL_FISH)){
-                    if (entity.itemHandler.getStackInSlot(fullslot + 3).getItem().equals(ModFoodItems.COOKED_RICE.get())){
+                    if (entity.itemHandler.getStackInSlot(fullslot + 3).getItem().equals(ModFoodItems.RICE.get())){
                         if(entity.itemHandler.getStackInSlot(fullslot + 6).getItem().equals(Items.DRIED_KELP)){
                             return 3;
                         }
