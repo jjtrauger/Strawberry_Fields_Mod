@@ -4,6 +4,9 @@ import com.volgadorf.strawberry_fields.Main;
 import com.volgadorf.strawberry_fields.block.ModBlocks;
 import com.volgadorf.strawberry_fields.item.custom.KnifeItem;
 import com.volgadorf.strawberry_fields.item.custom.OverflowingWaterBucketItem;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
+import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.PlaceOnWaterBlockItem;
 import net.minecraft.world.item.Rarity;
@@ -36,6 +39,17 @@ public class ModFoodItems {
 
     public static final RegistryObject<Item> OFWB = ITEMS.register("over_flowing_water_bucket",
             () -> new OverflowingWaterBucketItem(new Item.Properties().stacksTo(1).rarity(Rarity.RARE)));
+
+    public static final RegistryObject<Item> SUSHI = ITEMS.register("sushi",
+            () -> new Item(new Item.Properties().stacksTo(64).food(Foods.SUSHI_FOOD)));
+
+    public static class Foods{
+        public static final FoodProperties SUSHI_FOOD = new FoodProperties.Builder()
+                .nutrition(4)
+                .saturationMod(1.0f)
+                .effect( () -> new MobEffectInstance(MobEffects.WATER_BREATHING, 400, 1), 1.0f)
+                .build();
+    }
 
 
 

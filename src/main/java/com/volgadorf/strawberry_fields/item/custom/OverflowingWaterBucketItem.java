@@ -59,6 +59,11 @@ public class OverflowingWaterBucketItem extends Item {
     public boolean isFoil(@NotNull ItemStack pStack) {
         return true;
     }
+/*
+    public @NotNull ItemStack finishUsingItem(ItemStack pStack, Level pLevel, LivingEntity pEntityLiving) {
+        ItemStack itemstack = super.finishUsingItem(pStack, pLevel, pEntityLiving);
+        return pEntityLiving instanceof Player && ((Player)pEntityLiving).getAbilities().instabuild ? itemstack : new ItemStack(Items.BOWL);
+    } */
 
 
 }

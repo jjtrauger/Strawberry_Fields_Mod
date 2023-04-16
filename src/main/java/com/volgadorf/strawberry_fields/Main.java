@@ -73,6 +73,7 @@ public class Main {
             event.accept(ModBlocks.CHEEMS_FULL);
             event.accept(ModFoodItems.RICE);
             event.accept(ModFoodItems.RICE_SEED);
+            event.accept(ModFoodItems.SUSHI);
         }
         if(event.getTab() == ModCreativeModeTabs.VOLG_TAB2) {
             event.accept(ModFoodItems.KNIFE);
