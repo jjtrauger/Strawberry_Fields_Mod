@@ -15,6 +15,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.ContainerData;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.common.capabilities.Capability;
@@ -163,6 +164,21 @@ public class CuttingTableBlockEntity extends BlockEntity implements MenuProvider
             && canInsertAmountIntoOutputSlot(inventory)) {
                 return 2;
             }
+            //recipes that have three items
+        } else if (nonemptySlots ==3) {
+            //sushi: check first three slots
+            if (fullslot < 3){
+                //if only 3 slots taken, check that earliest slot is fish, slot below it is rice, slot below is dried kelp
+                if (entity.itemHandler.getStackInSlot(fullslot).getItem().equals(Items.TROPICAL_FISH)){
+                    if (entity.itemHandler.getStackInSlot(fullslot + 3).getItem().equals(ModFoodItems.RICE.get())){
+                        if(entity.itemHandler.getStackInSlot(fullslot + 6).getItem().equals(Items.DRIED_KELP)){
+                            return 3;
+                        }
+                    }
+                }
+
+            }
+
         }
         return 0;
     }
@@ -180,6 +196,8 @@ public class CuttingTableBlockEntity extends BlockEntity implements MenuProvider
                         lowest));
                 case 2 -> pEntity.itemHandler.setStackInSlot(9, new ItemStack(ModFoodItems.CHEEMS.get(),
                         lowest * 8));
+                case 3 -> pEntity.itemHandler.setStackInSlot(9, new ItemStack(ModFoodItems.SUSHI.get(),
+                        lowest));
 
 
                 //consider always setting it to 8, then dealing with oncraft differently (make it behave like logs to planks)
