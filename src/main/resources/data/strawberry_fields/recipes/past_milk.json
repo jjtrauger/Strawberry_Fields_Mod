@@ -1,8 +1,8 @@
 {
-  "type": "minecraft:smelting",
+  "type": "minecraft:smoking",
   "category": "food",
-  "cookingtime": 200,
-  "experience": 0.35,
+  "cookingtime": 100,
+  "experience": 0.25,
   "ingredient": {
     "item": "minecraft:milk_bucket"
   },
