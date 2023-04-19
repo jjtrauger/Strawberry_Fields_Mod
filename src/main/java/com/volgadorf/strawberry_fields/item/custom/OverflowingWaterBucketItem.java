@@ -2,24 +2,20 @@ package com.volgadorf.strawberry_fields.item.custom;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.core.NonNullList;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionResult;
-import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.LiquidBlockContainer;
+import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.Fluids;
+import net.minecraft.world.level.material.Material;
 import org.jetbrains.annotations.NotNull;
 
 public class OverflowingWaterBucketItem extends Item {
@@ -27,49 +23,6 @@ public class OverflowingWaterBucketItem extends Item {
 
     public OverflowingWaterBucketItem(Properties builder) {
         super(builder);
-    }
-
-    public InteractionResult onItemUseFirst(ItemStack stack, UseOnContext context) {
-        Level world = context.getLevel();
-        BlockPos pos = context.getClickedPos();
-        Direction face = context.getClickedFace();
-        Player player = context.getPlayer();
-
-        Player entityplayer = context.getPlayer();
-        assert entityplayer != null;
-
-        BlockPos targetPos = pos.offset(face.getNormal());
-        BlockState targetState = world.getBlockState(targetPos);
-
-        if (canBlockContainFluid(world, targetPos, targetState)) {
-            //System.out.println("Can't place water here");
-
-            BlockState waterloggedState = targetState.setValue(BlockStateProperties.WATERLOGGED, true);
-            world.setBlock(targetPos, waterloggedState, 3);
-            world.playSound(player, targetPos, SoundEvents.BUCKET_EMPTY, SoundSource.PLAYERS, 1.0F, 1.0F);
-
-            return InteractionResult.SUCCESS;
-        }
-
-        if (targetState.getBlock() != Blocks.AIR && targetState.getBlock().canHarvestBlock(targetState, world, targetPos, player)) {
-            NonNullList<ItemStack> drops = NonNullList.create();
-            assert player != null;
-            targetState.getBlock().playerWillDestroy(world, targetPos, targetState, player);
-            drops.forEach(itemStack -> Block.popResource(world, targetPos, itemStack));
-
-            ItemStack itemStack = new ItemStack(targetState.getBlock().asItem());
-            ItemEntity itemEntity = new ItemEntity(world, targetPos.getX(), targetPos.getY(), targetPos.getZ(), itemStack);
-            itemEntity.setDeltaMovement(0, 0.23, 0); // Set upward velocity
-            world.addFreshEntity(itemEntity);
-
-        }
-
-        BlockState waterState = Blocks.WATER.defaultBlockState();
-        world.setBlockAndUpdate(targetPos, waterState);
-
-        world.playSound(player, targetPos, SoundEvents.BUCKET_EMPTY, SoundSource.PLAYERS, 1.0F, 1.0F);
-
-        return InteractionResult.SUCCESS;
     }
 
 
@@ -82,11 +35,55 @@ public class OverflowingWaterBucketItem extends Item {
     public boolean isFoil(@NotNull ItemStack pStack) {
         return true;
     }
-/*
-    public @NotNull ItemStack finishUsingItem(ItemStack pStack, Level pLevel, LivingEntity pEntityLiving) {
-        ItemStack itemstack = super.finishUsingItem(pStack, pLevel, pEntityLiving);
-        return pEntityLiving instanceof Player && ((Player)pEntityLiving).getAbilities().instabuild ? itemstack : new ItemStack(Items.BOWL);
-    } */
 
+    //imitate water bucket
+    @Override
+    public @NotNull InteractionResult useOn(@NotNull UseOnContext context) {
+        if (context.getClickedFace() == Direction.UP && context.getPlayer() != null) {
+            Level world = context.getLevel();
+            BlockPos blockPos = context.getClickedPos().relative(context.getClickedFace());
+            BlockState targetState = world.getBlockState(blockPos);
+            Player player = context.getPlayer();
 
+            // Check if the block can be replaced by water, like snow or something
+            if (targetState.getMaterial().isReplaceable()
+                    && !targetState.getMaterial().equals(Material.REPLACEABLE_PLANT)
+                    && player.mayUseItemAt(blockPos, context.getClickedFace(), this.getDefaultInstance())) {
+                world.setBlockAndUpdate(blockPos, Blocks.WATER.defaultBlockState());
+                world.playSound(player, blockPos, SoundEvents.BUCKET_EMPTY, SoundSource.PLAYERS, 1.0F, 1.0F);
+                player.swing(context.getHand(), true);
+                return InteractionResult.SUCCESS;
+            }
+
+            // Waterlog the block if it can be waterlogged
+            if (canBlockContainFluid(world, blockPos, targetState)) {
+                BlockState waterloggedState = targetState.setValue(BlockStateProperties.WATERLOGGED, true);
+                world.setBlockAndUpdate(blockPos, waterloggedState);
+                world.playSound(player, blockPos, SoundEvents.BUCKET_EMPTY, SoundSource.PLAYERS, 1.0F, 1.0F);
+                player.swing(context.getHand(), true);
+                return InteractionResult.SUCCESS;
+            }
+
+            // break it and Drop the block if it contains a flower
+            if (targetState.getBlock() instanceof FlowerBlock || targetState.getBlock() instanceof MushroomBlock) {
+                Block.popResource(world, blockPos, new ItemStack(targetState.getBlock().asItem()));
+                targetState.getBlock().playerWillDestroy(world, blockPos, targetState, player);
+                world.setBlockAndUpdate(blockPos, Blocks.WATER.defaultBlockState());
+                world.playSound(player, blockPos, SoundEvents.BUCKET_EMPTY, SoundSource.PLAYERS, 1.0F, 1.0F);
+                player.swing(context.getHand(), true);
+                return InteractionResult.SUCCESS;
+            }
+
+            // Don't Drop the block if it is grass, just break it
+            if (targetState.getMaterial().equals(Material.REPLACEABLE_PLANT)) {
+                targetState.getBlock().playerWillDestroy(world, blockPos, targetState, player);
+                world.setBlockAndUpdate(blockPos, Blocks.WATER.defaultBlockState());
+                world.playSound(player, blockPos, SoundEvents.BUCKET_EMPTY, SoundSource.PLAYERS, 1.0F, 1.0F);
+                player.swing(context.getHand(), true);
+                return InteractionResult.SUCCESS;
+            }
+        }
+        //water cant be placed here
+        return InteractionResult.FAIL;
+    }
 }
