@@ -29,6 +29,7 @@ public class ModFoodItems {
     //nameitemblock is reserved for items and blocks that have the same name; consider making own class and extendin PlaceOnWater
     //and implementing ItemNameBlockItem for crops that replant using product or whenever i want the item names to be the same
     public static final RegistryObject<Item> RICE_SEED = ITEMS.register("rice_seed",
+            //maybe change PlaceOnWaterBlockItem to ItemNameBlockItem and implementing PlaceOnWaterBlockItem in the rice seed class
             () -> new PlaceOnWaterBlockItem(ModBlocks.RICE_CROP.get(),
                     new Item.Properties().stacksTo(64)));
 

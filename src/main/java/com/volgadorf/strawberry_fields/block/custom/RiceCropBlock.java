@@ -13,6 +13,13 @@ import net.minecraft.world.level.material.Fluids;
 import net.minecraftforge.common.PlantType;
 
 public class RiceCropBlock extends CropBlock {
+
+    /*
+
+    i'd probably extend placeonwater and implement the name thing, since it's less code
+    ItemNameBlockItem is just one method that's just one line
+
+     */
     public RiceCropBlock(Properties pProperties) {
         super(pProperties);
     }
