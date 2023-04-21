@@ -2,6 +2,7 @@ package com.volgadorf.strawberry_fields.item;
 
 import com.volgadorf.strawberry_fields.Main;
 import com.volgadorf.strawberry_fields.block.ModBlocks;
+import com.volgadorf.strawberry_fields.item.custom.BottomlessBucketItem;
 import com.volgadorf.strawberry_fields.item.custom.KnifeItem;
 import com.volgadorf.strawberry_fields.item.custom.OverflowingWaterBucketItem;
 import net.minecraft.world.effect.MobEffectInstance;
@@ -40,6 +41,9 @@ public class ModFoodItems {
 
     public static final RegistryObject<Item> OFWB = ITEMS.register("over_flowing_water_bucket",
             () -> new OverflowingWaterBucketItem(new Item.Properties().stacksTo(1).rarity(Rarity.RARE)));
+
+    public static final RegistryObject<Item> BOTTOMLESSBUCKET = ITEMS.register("bottomless_bucket",
+            () -> new BottomlessBucketItem(new Item.Properties().stacksTo(1).rarity(Rarity.RARE)));
 
     public static final RegistryObject<Item> SUSHI = ITEMS.register("sushi",
             () -> new Item(new Item.Properties().stacksTo(64).food(Foods.SUSHI_FOOD)));
