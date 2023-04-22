@@ -19,6 +19,7 @@ import net.minecraft.world.level.material.Material;
 import org.jetbrains.annotations.NotNull;
 
 public class OverflowingWaterBucketItem extends Item {
+    //try extending BucketItem and implementing DispensibleContainerItem
     private final Fluid content = Fluids.WATER;
 
     public OverflowingWaterBucketItem(Properties builder) {
@@ -36,12 +37,14 @@ public class OverflowingWaterBucketItem extends Item {
         return true;
     }
 
-    //imitate water bucket
+    //current behavior is not in line with vanilla buckets. it only works on waterlogged blocks. need to
+    //also check for the block above usin old behavior or extend BucketItem instead
     @Override
     public @NotNull InteractionResult useOn(@NotNull UseOnContext context) {
-        if (context.getClickedFace() == Direction.UP && context.getPlayer() != null) {
+        //if (context.getClickedFace() == Direction.UP && context.getPlayer() != null) {
+        if (context.getPlayer() != null) {
             Level world = context.getLevel();
-            BlockPos blockPos = context.getClickedPos().relative(context.getClickedFace());
+            BlockPos blockPos = context.getClickedPos();
             BlockState targetState = world.getBlockState(blockPos);
             Player player = context.getPlayer();
 

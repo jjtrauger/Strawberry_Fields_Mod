@@ -10,6 +10,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.LiquidBlockContainer;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
@@ -29,11 +30,12 @@ public class BottomlessBucketItem extends Item {
     @Override
     public @NotNull InteractionResult useOn(UseOnContext context) {
         //this only lets you click on blocks and considers the one above it, so i need to find a way to click on fluids
-        if (context.getClickedFace() == Direction.UP && context.getPlayer() != null) {
+        if (context.getPlayer() != null) {
             Level world = context.getLevel();
-            BlockPos blockPos = context.getClickedPos().relative(context.getClickedFace());
+            BlockPos blockPos = context.getClickedPos();
             BlockState targetState = world.getBlockState(blockPos);
             Player player = context.getPlayer();
+
 
             // Set a waterlogged block to not be waterlogged
             if (canBlockRemoveFluid(world, blockPos, targetState)) {
