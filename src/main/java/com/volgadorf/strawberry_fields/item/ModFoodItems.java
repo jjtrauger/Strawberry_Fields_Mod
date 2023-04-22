@@ -12,6 +12,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.PlaceOnWaterBlockItem;
 import net.minecraft.world.item.Rarity;
 import net.minecraft.world.item.Tiers;
+import net.minecraft.world.level.material.Fluids;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -40,7 +41,7 @@ public class ModFoodItems {
             () -> new KnifeItem(Tiers.IRON, 2, -1.4f, new Item.Properties().durability(30)));
 
     public static final RegistryObject<Item> OFWB = ITEMS.register("over_flowing_water_bucket",
-            () -> new OverflowingWaterBucketItem(new Item.Properties().stacksTo(1).rarity(Rarity.RARE)));
+            () -> new OverflowingWaterBucketItem(() -> Fluids.WATER, new Item.Properties().stacksTo(1).rarity(Rarity.RARE)));
 
     public static final RegistryObject<Item> BOTTOMLESSBUCKET = ITEMS.register("bottomless_bucket",
             () -> new BottomlessBucketItem(new Item.Properties().stacksTo(1).rarity(Rarity.RARE)));
