@@ -2,9 +2,8 @@ package com.volgadorf.strawberry_fields.item;
 
 import com.volgadorf.strawberry_fields.Main;
 import com.volgadorf.strawberry_fields.block.ModBlocks;
-import com.volgadorf.strawberry_fields.item.custom.BottomlessBucketItem;
 import com.volgadorf.strawberry_fields.item.custom.KnifeItem;
-import com.volgadorf.strawberry_fields.item.custom.OverflowingWaterBucketItem;
+import com.volgadorf.strawberry_fields.item.custom.MagicBucketItem;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.food.FoodProperties;
@@ -41,10 +40,12 @@ public class ModFoodItems {
             () -> new KnifeItem(Tiers.IRON, 2, -1.4f, new Item.Properties().durability(30)));
 
     public static final RegistryObject<Item> OFWB = ITEMS.register("over_flowing_water_bucket",
-            () -> new OverflowingWaterBucketItem(() -> Fluids.WATER, new Item.Properties().stacksTo(1).rarity(Rarity.RARE)));
+            () -> new MagicBucketItem(() -> Fluids.WATER, new Item.Properties().stacksTo(1).rarity(Rarity.RARE)));
 
+    public static final RegistryObject<Item> OFLB = ITEMS.register("over_flowing_lava_bucket",
+            () -> new MagicBucketItem(() -> Fluids.LAVA, new Item.Properties().stacksTo(1).rarity(Rarity.RARE)));
     public static final RegistryObject<Item> BOTTOMLESSBUCKET = ITEMS.register("bottomless_bucket",
-            () -> new BottomlessBucketItem(() -> Fluids.EMPTY, new Item.Properties().stacksTo(1).rarity(Rarity.RARE)));
+            () -> new MagicBucketItem(() -> Fluids.EMPTY, new Item.Properties().stacksTo(1).rarity(Rarity.RARE)));
 
     public static final RegistryObject<Item> SUSHI = ITEMS.register("sushi",
             () -> new Item(new Item.Properties().stacksTo(64).food(Foods.SUSHI_FOOD)));

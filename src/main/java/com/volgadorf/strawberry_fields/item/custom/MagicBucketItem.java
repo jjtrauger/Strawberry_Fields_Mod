@@ -13,8 +13,10 @@ import net.minecraft.world.item.BucketItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.BucketPickup;
 import net.minecraft.world.level.block.LiquidBlockContainer;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.phys.BlockHitResult;
@@ -23,16 +25,24 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.function.Supplier;
 
-public class OverflowingWaterBucketItem extends BucketItem{
-    private final Fluid content = Fluids.WATER;
+public class MagicBucketItem extends BucketItem{
+    private final Fluid content = this.getFluid();
 
-    public OverflowingWaterBucketItem(Supplier<? extends Fluid> supplier, Properties builder) {
+    public MagicBucketItem(Supplier<? extends Fluid> supplier, Properties builder) {
         super(supplier, builder);
     }
 
     //return itself so item never changes!
     public @NotNull ItemStack getEmptySuccessItem2() {
-        return new ItemStack(ModFoodItems.OFWB.get());
+        if (this.content == Fluids.WATER){
+            return new ItemStack(ModFoodItems.OFWB.get());
+        }
+        if (this.content == Fluids.EMPTY){
+            return new ItemStack(ModFoodItems.BOTTOMLESSBUCKET.get());
+        }
+        else {
+            return new ItemStack(ModFoodItems.OFLB.get());
+        }
     }
 
 
@@ -57,13 +67,13 @@ public class OverflowingWaterBucketItem extends BucketItem{
             Direction direction = blockhitresult.getDirection();
             BlockPos blockpos1 = blockpos.relative(direction);
             if (pLevel.mayInteract(pPlayer, blockpos) && pPlayer.mayUseItemAt(blockpos1, direction, itemstack)) {
-
+                if (this.content != Fluids.EMPTY) {
                     BlockState blockstate = pLevel.getBlockState(blockpos);
                     BlockPos blockpos2 = canBlockContainFluid(pLevel, blockpos, blockstate) ? blockpos : blockpos1;
                     if (this.emptyContents(pPlayer, pLevel, blockpos2, blockhitresult, itemstack)) {
                         this.checkExtraContent(pPlayer, pLevel, itemstack, blockpos2);
                         if (pPlayer instanceof ServerPlayer) {
-                            CriteriaTriggers.PLACED_BLOCK.trigger((ServerPlayer)pPlayer, blockpos2, itemstack);
+                            CriteriaTriggers.PLACED_BLOCK.trigger((ServerPlayer) pPlayer, blockpos2, itemstack);
                         }
 
                         pPlayer.awardStat(Stats.ITEM_USED.get(this));
@@ -71,11 +81,29 @@ public class OverflowingWaterBucketItem extends BucketItem{
                     } else {
                         return InteractionResultHolder.fail(itemstack);
                     }
+                }
+                else{
+                    BlockState blockstate1 = pLevel.getBlockState(blockpos);
+                    if (blockstate1.getBlock() instanceof BucketPickup bucketpickup) {
+                        ItemStack itemstack1 = bucketpickup.pickupBlock(pLevel, blockpos, blockstate1);
+                        if (!itemstack1.isEmpty()) {
+                            pPlayer.awardStat(Stats.ITEM_USED.get(this));
+                            bucketpickup.getPickupSound(blockstate1).ifPresent((p_150709_) -> pPlayer.playSound(p_150709_, 1.0F, 1.0F));
+                            pLevel.gameEvent(pPlayer, GameEvent.FLUID_PICKUP, blockpos);
+                            ItemStack itemstack2 = getEmptySuccessItem2();
+                            if (!pLevel.isClientSide) {
+                                CriteriaTriggers.FILLED_BUCKET.trigger((ServerPlayer)pPlayer, itemstack1);
+                            }
 
+                            return InteractionResultHolder.sidedSuccess(itemstack2, pLevel.isClientSide());
+                        }
+                    }
+                }
             } else {
                 return InteractionResultHolder.fail(itemstack);
             }
         }
+        return InteractionResultHolder.fail(itemstack);
     }
 
 

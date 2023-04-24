@@ -83,8 +83,9 @@ public class Main {
         }
 
         if(event.getTab() == ModCreativeModeTabs.VOLG_TAB3) {
-            event.accept(ModFoodItems.OFWB);
             event.accept(ModFoodItems.BOTTOMLESSBUCKET);
+            event.accept(ModFoodItems.OFWB);
+            event.accept(ModFoodItems.OFLB);
         }
     }
 
