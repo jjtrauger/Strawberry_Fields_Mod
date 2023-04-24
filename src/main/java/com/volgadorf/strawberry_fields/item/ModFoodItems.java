@@ -44,7 +44,7 @@ public class ModFoodItems {
             () -> new OverflowingWaterBucketItem(() -> Fluids.WATER, new Item.Properties().stacksTo(1).rarity(Rarity.RARE)));
 
     public static final RegistryObject<Item> BOTTOMLESSBUCKET = ITEMS.register("bottomless_bucket",
-            () -> new BottomlessBucketItem(new Item.Properties().stacksTo(1).rarity(Rarity.RARE)));
+            () -> new BottomlessBucketItem(() -> Fluids.EMPTY, new Item.Properties().stacksTo(1).rarity(Rarity.RARE)));
 
     public static final RegistryObject<Item> SUSHI = ITEMS.register("sushi",
             () -> new Item(new Item.Properties().stacksTo(64).food(Foods.SUSHI_FOOD)));

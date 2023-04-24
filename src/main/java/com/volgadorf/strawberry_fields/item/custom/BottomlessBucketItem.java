@@ -1,60 +1,82 @@
 package com.volgadorf.strawberry_fields.item.custom;
 
+import com.volgadorf.strawberry_fields.item.ModFoodItems;
+import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.sounds.SoundEvents;
-import net.minecraft.sounds.SoundSource;
-import net.minecraft.world.InteractionResult;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.stats.Stats;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.Item;
+import net.minecraft.world.item.BucketItem;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.context.UseOnContext;
+import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.LiquidBlockContainer;
+import net.minecraft.world.level.block.BucketPickup;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.block.state.properties.BlockStateProperties;
+import net.minecraft.world.level.gameevent.GameEvent;
+import net.minecraft.world.level.material.Fluid;
+import net.minecraft.world.level.material.Fluids;
+import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.HitResult;
 import org.jetbrains.annotations.NotNull;
 
-public class BottomlessBucketItem extends Item {
+import java.util.function.Supplier;
 
-    public BottomlessBucketItem(Properties pProperties) {
-        super(pProperties);
-    }
+public class BottomlessBucketItem extends BucketItem {
+
+    private final Fluid content = Fluids.EMPTY;
 
     @Override
     public boolean isFoil(@NotNull ItemStack pStack) {
         return true;
     }
 
-    @Override
-    public @NotNull InteractionResult useOn(UseOnContext context) {
-        //this only lets you click on blocks and considers the one above it, so i need to find a way to click on fluids
-        if (context.getPlayer() != null) {
-            Level world = context.getLevel();
-            BlockPos blockPos = context.getClickedPos();
-            BlockState targetState = world.getBlockState(blockPos);
-            Player player = context.getPlayer();
-
-
-            // Set a waterlogged block to not be waterlogged
-            if (canBlockRemoveFluid(world, blockPos, targetState)) {
-                BlockState waterloggedState = targetState.setValue(BlockStateProperties.WATERLOGGED, false);
-                world.setBlockAndUpdate(blockPos, waterloggedState);
-                world.playSound(player, blockPos, SoundEvents.BUCKET_FILL, SoundSource.PLAYERS, 1.0F, 1.0F);
-                player.swing(context.getHand(), true);
-                return InteractionResult.SUCCESS;
-            }
-
-            //
-
-        }
-        //water cant be placed here
-        return InteractionResult.FAIL;
+    public BottomlessBucketItem(Supplier<? extends Fluid> supplier, Properties builder) {
+        super(supplier, builder);
     }
-    private boolean canBlockRemoveFluid(Level worldIn, BlockPos posIn, BlockState blockstate)
-    {
-        return !blockstate.getFluidState().isEmpty() && blockstate.getBlock() instanceof LiquidBlockContainer;
+
+    public @NotNull InteractionResultHolder<ItemStack> use(@NotNull Level pLevel, Player pPlayer, @NotNull InteractionHand pHand) {
+        ItemStack itemstack = pPlayer.getItemInHand(pHand);
+        BlockHitResult blockhitresult = getPlayerPOVHitResult(pLevel, pPlayer, this.content == Fluids.EMPTY ? ClipContext.Fluid.SOURCE_ONLY : ClipContext.Fluid.NONE);
+        InteractionResultHolder<ItemStack> ret = net.minecraftforge.event.ForgeEventFactory.onBucketUse(pPlayer, pLevel, itemstack, blockhitresult);
+        if (ret != null) return ret;
+        if (blockhitresult.getType() == HitResult.Type.MISS) {
+            return InteractionResultHolder.pass(itemstack);
+        } else if (blockhitresult.getType() != HitResult.Type.BLOCK) {
+            return InteractionResultHolder.pass(itemstack);
+        } else {
+            BlockPos blockpos = blockhitresult.getBlockPos();
+            Direction direction = blockhitresult.getDirection();
+            BlockPos blockpos1 = blockpos.relative(direction);
+            if (pLevel.mayInteract(pPlayer, blockpos) && pPlayer.mayUseItemAt(blockpos1, direction, itemstack)) {
+                    BlockState blockstate1 = pLevel.getBlockState(blockpos);
+                    if (blockstate1.getBlock() instanceof BucketPickup bucketpickup) {
+                        ItemStack itemstack1 = bucketpickup.pickupBlock(pLevel, blockpos, blockstate1);
+                        if (!itemstack1.isEmpty()) {
+                            pPlayer.awardStat(Stats.ITEM_USED.get(this));
+                            bucketpickup.getPickupSound(blockstate1).ifPresent((p_150709_) -> pPlayer.playSound(p_150709_, 1.0F, 1.0F));
+                            pLevel.gameEvent(pPlayer, GameEvent.FLUID_PICKUP, blockpos);
+                            ItemStack itemstack2 = createFilledResult2();
+                            if (!pLevel.isClientSide) {
+                                CriteriaTriggers.FILLED_BUCKET.trigger((ServerPlayer)pPlayer, itemstack1);
+                            }
+
+                            return InteractionResultHolder.sidedSuccess(itemstack2, pLevel.isClientSide());
+                        }
+                    }
+
+                    return InteractionResultHolder.fail(itemstack);
+            } else {
+                return InteractionResultHolder.fail(itemstack);
+            }
+        }
+    }
+
+
+    public ItemStack createFilledResult2() {
+        return new ItemStack(ModFoodItems.BOTTOMLESSBUCKET.get());
     }
 
 }
