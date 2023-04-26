@@ -1,0 +1,39 @@
+{
+  "type": "minecraft:entity",
+  "pools": [
+    {
+      "rolls": 1,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "minecraft:prismarine_shard",
+          "functions": [
+            {
+              "function": "minecraft:looting_enchant",
+              "levels": 0,
+              "treasure": false
+            }
+          ],
+          "weight": 80
+        },
+        {
+          "type": "minecraft:item",
+          "name": "minecraft:prismarine_crystals",
+          "functions": [
+            {
+              "function": "minecraft:looting_enchant",
+              "levels": 0,
+              "treasure": false
+            }
+          ],
+          "weight": 50
+        },
+        {
+          "type": "minecraft:item",
+          "name": "strawberry_fields:over_flowing_water_bucket",
+          "weight": 33
+        }
+      ]
+    }
+  ]
+}

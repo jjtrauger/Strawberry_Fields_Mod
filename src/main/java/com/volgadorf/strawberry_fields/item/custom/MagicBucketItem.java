@@ -45,7 +45,6 @@ public class MagicBucketItem extends BucketItem{
         }
     }
 
-
     @Override
     public boolean isFoil(@NotNull ItemStack pStack) {
         return true;
@@ -105,8 +104,6 @@ public class MagicBucketItem extends BucketItem{
         }
         return InteractionResultHolder.fail(itemstack);
     }
-
-
 
     private boolean canBlockContainFluid(Level worldIn, BlockPos posIn, BlockState blockstate)
     {
