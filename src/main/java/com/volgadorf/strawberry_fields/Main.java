@@ -8,6 +8,7 @@ import com.volgadorf.strawberry_fields.effects.ModEffects;
 import com.volgadorf.strawberry_fields.enchantment.ModEnchantments;
 import com.volgadorf.strawberry_fields.item.ModCreativeModeTabs;
 import com.volgadorf.strawberry_fields.item.ModFoodItems;
+import com.volgadorf.strawberry_fields.loot.ModItemModifiers;
 import com.volgadorf.strawberry_fields.recipe.ModRecipes;
 import com.volgadorf.strawberry_fields.screen.CuttingTableScreen;
 import com.volgadorf.strawberry_fields.screen.ModMenuTypes;
@@ -43,6 +44,8 @@ public class Main {
         ModRecipes.register(modEventBus);
         ModEnchantments.register(modEventBus);
         ModEffects.register(modEventBus);
+
+        ModItemModifiers.register(modEventBus);
 
         modEventBus.addListener(this::commonSetup);
 
