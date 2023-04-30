@@ -36,8 +36,8 @@ Enchantments:
 2x2 and 3x3 Mining and Tilling
 Frost Aspect (completed)
 Shields (Unbreaking and Deflection)
-Overflow Bucket (WIP, water completed, need to design loot tables)
-Bottomless Buckets
+Overflow Bucket (Completed)
+Bottomless Buckets (Completed)
 Tracker bow
 Crop safe shoes
 Bane of arthropods to break cobwebs
