@@ -1,6 +1,8 @@
 {
   "replace": false,
   "entries": [
-    "strawberry_fields:ofwb_from_elder_guardian"
+    "strawberry_fields:ofwb_from_elder_guardian",
+    "strawberry_fields:oflb_from_piglin_trading",
+    "strawberry_fields:bb_from_desert_pyramids"
   ]
 }

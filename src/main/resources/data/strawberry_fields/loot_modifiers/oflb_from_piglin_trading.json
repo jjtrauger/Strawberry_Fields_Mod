@@ -1,0 +1,10 @@
+{
+  "type": "strawberry_fields:add_item",
+  "conditions": [
+    {
+      "condition": "forge:loot_table_id",
+      "loot_table_id": "minecraft:gameplay/piglin_bartering"
+    }
+  ],
+  "item": "strawberry_fields:over_flowing_lava_bucket"
+}
