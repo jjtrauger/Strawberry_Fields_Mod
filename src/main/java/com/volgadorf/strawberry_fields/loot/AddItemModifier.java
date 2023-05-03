@@ -4,6 +4,7 @@ import com.google.common.base.Suppliers;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.storage.loot.LootContext;
@@ -28,8 +29,26 @@ public class AddItemModifier extends LootModifier {
 
     @Override
     protected @NotNull ObjectArrayList<ItemStack> doApply(ObjectArrayList<ItemStack> generatedLoot, LootContext context) {
-        //all of time do this
-        if(context.getRandom().nextFloat() >= 0f) {
+        ResourceLocation lootTable = new ResourceLocation("minecraft", "chests/desert_pyramid");
+        ResourceLocation lootTable2 = new ResourceLocation("minecraft", "entities/elder_guardian");
+        ResourceLocation lootTable3 = new ResourceLocation("minecraft", "gameplay/piglin_bartering");
+
+        if(lootTable.equals(context.getQueriedLootTableId())){
+            if(context.getRandom().nextFloat() >= 0.96f) {
+                generatedLoot.add(new ItemStack(item));
+            }
+        }
+        else if(lootTable3.equals(context.getQueriedLootTableId())){
+            if(context.getRandom().nextFloat() >= 0.95f) {
+                generatedLoot.add(new ItemStack(item));
+            }
+        }
+        else if(lootTable2.equals(context.getQueriedLootTableId())){
+            if(context.getRandom().nextFloat() >= 0.67f) {
+                generatedLoot.add(new ItemStack(item));
+            }
+        }
+        else{
             generatedLoot.add(new ItemStack(item));
         }
         //add stuff here to add loot stuff
