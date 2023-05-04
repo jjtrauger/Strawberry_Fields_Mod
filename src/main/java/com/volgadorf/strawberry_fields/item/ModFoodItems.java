@@ -4,11 +4,11 @@ import com.volgadorf.strawberry_fields.Main;
 import com.volgadorf.strawberry_fields.block.ModBlocks;
 import com.volgadorf.strawberry_fields.item.custom.KnifeItem;
 import com.volgadorf.strawberry_fields.item.custom.MagicBucketItem;
+import com.volgadorf.strawberry_fields.item.custom.RiceSeedItem;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.item.Item;
-import net.minecraft.world.item.PlaceOnWaterBlockItem;
 import net.minecraft.world.item.Rarity;
 import net.minecraft.world.item.Tiers;
 import net.minecraft.world.level.material.Fluids;
@@ -31,8 +31,8 @@ public class ModFoodItems {
     //and implementing ItemNameBlockItem for crops that replant using product or whenever i want the item names to be the same
     public static final RegistryObject<Item> RICE_SEED = ITEMS.register("rice_seed",
             //maybe change PlaceOnWaterBlockItem to ItemNameBlockItem and implementing PlaceOnWaterBlockItem in the rice seed class
-            () -> new PlaceOnWaterBlockItem(ModBlocks.RICE_CROP.get(),
-                    new Item.Properties().stacksTo(64)));
+            () -> new RiceSeedItem(ModBlocks.RICE_CROP.get(),
+                    new Item.Properties()));
 
     public static final RegistryObject<Item> RICE = ITEMS.register("rice",
             () -> new Item(new Item.Properties().stacksTo(64)));
