@@ -1,10 +1,7 @@
 package com.volgadorf.strawberry_fields.block;
 
 import com.volgadorf.strawberry_fields.Main;
-import com.volgadorf.strawberry_fields.block.custom.Cheems_Wheel_Block;
-import com.volgadorf.strawberry_fields.block.custom.CuttingTableBlock;
-import com.volgadorf.strawberry_fields.block.custom.RiceCropBlock;
-import com.volgadorf.strawberry_fields.block.custom.WhetstoneBlock;
+import com.volgadorf.strawberry_fields.block.custom.*;
 import com.volgadorf.strawberry_fields.item.ModCreativeModeTabs;
 import com.volgadorf.strawberry_fields.item.ModFoodItems;
 import net.minecraft.world.item.BlockItem;
@@ -12,6 +9,8 @@ import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.IronBarsBlock;
+import net.minecraft.world.level.block.StainedGlassPaneBlock;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.material.Material;
 import net.minecraftforge.eventbus.api.IEventBus;
@@ -39,8 +38,6 @@ public class ModBlocks {
 
     public static final RegistryObject<Block> RICE_CROP = BLOCKS.register("rice_crop",
             () -> new RiceCropBlock(BlockBehaviour.Properties.copy(Blocks.WHEAT)));
-
-
 
     private static <T extends Block> RegistryObject<T> registerBlock2(String name, Supplier<T> block, CreativeModeTab tab) {
         RegistryObject<T> toReturn = BLOCKS.register(name, block);
