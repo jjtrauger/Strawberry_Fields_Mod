@@ -6,11 +6,9 @@ import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.CropBlock;
-import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.IntegerProperty;
-import net.minecraft.world.level.material.FluidState;
-import net.minecraft.world.level.material.Fluids;
 import net.minecraftforge.common.PlantType;
+import org.jetbrains.annotations.NotNull;
 
 public class RiceCropBlock extends CropBlock {
 
@@ -25,12 +23,12 @@ public class RiceCropBlock extends CropBlock {
     }
 
     @Override
-    protected ItemLike getBaseSeedId() {
+    protected @NotNull ItemLike getBaseSeedId() {
         return ModFoodItems.RICE_SEED.get();
     }
 
     @Override
-    public IntegerProperty getAgeProperty() {
+    public @NotNull IntegerProperty getAgeProperty() {
         return super.getAgeProperty();
     }
 
@@ -40,14 +38,7 @@ public class RiceCropBlock extends CropBlock {
     }
 
     @Override
-    protected boolean mayPlaceOn(BlockState pState, BlockGetter pLevel, BlockPos pPos) {
-        FluidState fluidstate = pLevel.getFluidState(pPos);
-        FluidState fluidstate1 = pLevel.getFluidState(pPos.above());
-        return (fluidstate.getType() == Fluids.WATER) && fluidstate1.getType() == Fluids.EMPTY;
-    }
-
-    @Override
-    protected int getBonemealAgeIncrease(Level pLevel) {
+    protected int getBonemealAgeIncrease(@NotNull Level pLevel) {
         return 1;
     }
 

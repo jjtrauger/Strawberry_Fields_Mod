@@ -33,7 +33,7 @@ public class WhetstoneBlock extends Block {
     protected static final VoxelShape SHAPE2 = Block.box(4, 0, 6, 12, 2, 10);
 
     @Override
-    public @NotNull VoxelShape getShape(BlockState p_60555_, BlockGetter p_60556_, BlockPos p_60557_, CollisionContext p_60558_) {
+    public @NotNull VoxelShape getShape(BlockState p_60555_, @NotNull BlockGetter p_60556_, @NotNull BlockPos p_60557_, @NotNull CollisionContext p_60558_) {
         Direction facing = p_60555_.getValue(FACING);
         if (facing.equals(Direction.NORTH) || facing.equals(Direction.SOUTH)){
             return SHAPE1;
@@ -64,12 +64,12 @@ public class WhetstoneBlock extends Block {
     }
 
     @Override
-    public @NotNull RenderShape getRenderShape(BlockState p_49232_) {
+    public @NotNull RenderShape getRenderShape(@NotNull BlockState p_49232_) {
         return RenderShape.MODEL;
     }
 
     @Override
-    public @NotNull InteractionResult use(BlockState blockState, Level level, BlockPos blockPos, Player player, InteractionHand interactionHand, BlockHitResult blockHitResult) {
+    public @NotNull InteractionResult use(@NotNull BlockState blockState, @NotNull Level level, @NotNull BlockPos blockPos, Player player, @NotNull InteractionHand interactionHand, @NotNull BlockHitResult blockHitResult) {
         if (player.getMainHandItem().getItem().equals(ModFoodItems.KNIFE.get())){
             //heal 3 durability from knife
             player.getMainHandItem().hurt(-4, level.getRandom(), null);

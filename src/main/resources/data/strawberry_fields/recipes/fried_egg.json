@@ -1,0 +1,10 @@
+{
+  "type": "minecraft:smoking",
+  "category": "food",
+  "cookingtime": 75,
+  "experience": 0.1,
+  "ingredient": {
+    "item": "minecraft:egg"
+  },
+  "result": "strawberry_fields:fried_egg"
+}

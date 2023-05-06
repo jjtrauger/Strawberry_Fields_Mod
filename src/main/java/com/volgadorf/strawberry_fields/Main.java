@@ -78,6 +78,7 @@ public class Main {
             event.accept(ModFoodItems.RICE_SEED);
             event.accept(ModFoodItems.SUSHI);
             event.accept(ModFoodItems.COOKED_RICE);
+            event.accept(ModFoodItems.FRIED_EGG);
         }
         if(event.getTab() == ModCreativeModeTabs.VOLG_TAB2) {
             event.accept(ModFoodItems.KNIFE);
