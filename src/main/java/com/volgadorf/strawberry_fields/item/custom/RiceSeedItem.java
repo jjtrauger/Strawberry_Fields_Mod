@@ -41,6 +41,7 @@ public class RiceSeedItem extends PlaceOnWaterBlockItem {
                 if (random.nextDouble() < 0.5) { //only fill it up 50% of time to simulate behavior similar to wheat seeds
                     BlockState newState = blockState
                             .setValue(ComposterBlock.LEVEL, currentValue + 1); // set the new value
+                    currentValue++; //also change the variable to check if it hits stage 7 for later
                     context.getLevel().setBlock(context.getClickedPos(), newState, 3); // update the block state
                 }
 
@@ -62,13 +63,19 @@ public class RiceSeedItem extends PlaceOnWaterBlockItem {
                 if (context.getLevel() instanceof ServerLevel) {
                     ((ServerLevel) context.getLevel()).sendParticles(ParticleTypes.COMPOSTER, x, y, z, 10, 0.2, 0.2, 0.2, 0.0);
                 }
-            } else{
-                // Composter is full, transition to the bonemeal state
-                BlockState newState = blockState.setValue(ComposterBlock.LEVEL, 0)
-                                .setValue(ComposterBlock.LEVEL, ComposterBlock.READY);
-                context.getLevel().setBlock(context.getClickedPos(), newState, 3);
-                context.getLevel().levelEvent(1500, context.getClickedPos(), 0);
+                if (currentValue >= ComposterBlock.READY - 1) {
+                    // Composter is full, transition to the bonemeal state (this is 'later')
+                    BlockState newState = blockState.setValue(ComposterBlock.LEVEL, ComposterBlock.READY);
+
+                    //i should consider adding a time delay here to simulate vanilla interactions, but that uses tick and i don't want to overload server
+
+                    //change the blockstate
+                    context.getLevel().setBlock(context.getClickedPos(), newState, 3);
+                    context.getLevel().levelEvent(1500, context.getClickedPos(), 0);
+                    return InteractionResult.FAIL;
+                }
             }
+
         } else {
             System.out.println("what the");
         }
