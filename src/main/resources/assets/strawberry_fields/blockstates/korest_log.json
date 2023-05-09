@@ -1,0 +1,16 @@
+{
+  "variants": {
+    "axis=x": {
+      "model": "strawberry_fields:block/korest_log",
+      "x": 90,
+      "y": 90
+    },
+    "axis=y": {
+      "model": "strawberry_fields:block/korest_log"
+    },
+    "axis=z": {
+      "model": "strawberry_fields:block/korest_log",
+      "x": 90
+    }
+  }
+}

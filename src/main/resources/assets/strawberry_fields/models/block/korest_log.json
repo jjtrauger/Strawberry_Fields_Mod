@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/cube_column",
+  "textures": {
+    "end": "strawberry_fields:block/korest_log_top",
+    "side": "strawberry_fields:block/korest_log"
+  }
+}

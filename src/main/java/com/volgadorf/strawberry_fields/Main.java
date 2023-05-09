@@ -69,6 +69,7 @@ public class Main {
             event.accept(ModBlocks.CUTTING_TABLE);
             event.accept(ModFoodItems.RICE);
             event.accept(ModFoodItems.RICE_SEED);
+            //event.accept(ModBlocks.KOREST_LOG);
         }
         if(event.getTab() == ModCreativeModeTabs.VOLG_TAB) {
             event.accept(ModFoodItems.PAST_MILK);
@@ -90,6 +91,7 @@ public class Main {
             event.accept(ModFoodItems.BOTTOMLESSBUCKET);
             event.accept(ModFoodItems.OFWB);
             event.accept(ModFoodItems.OFLB);
+            event.accept(ModBlocks.KOREST_LOG);
         }
     }
 
