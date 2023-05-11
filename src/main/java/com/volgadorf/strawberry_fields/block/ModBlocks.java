@@ -38,14 +38,16 @@ public class ModBlocks {
     public static final RegistryObject<Block> RICE_CROP = BLOCKS.register("rice_crop",
             () -> new RiceCropBlock(BlockBehaviour.Properties.copy(Blocks.WHEAT)));
 
-    //THIS DOESNT WORK, NEED TO MAKE OWN CLASS OR FIGURE OUT ROTATEDPILLARBLOCK (TRY MAKING OWN MATERIALCOLOR)
     public static final RegistryObject<Block> KOREST_LOG =
             registerBlock("korest_log",
                     () -> new KorestLogBlock(BlockBehaviour.Properties
                            // .copy(Blocks.WARPED_STEM)));
                             .of(Material.WOOD)
                             .strength(2.0F)
-                            .sound(SoundType.STEM)), ModCreativeModeTabs.VOLG_TAB2);
+                            .sound(SoundType.STEM)
+                            .requiresCorrectToolForDrops()
+                            .lightLevel((blockState) -> 7))
+                    , ModCreativeModeTabs.VOLG_TAB2);
 
     private static <T extends Block> RegistryObject<T> registerBlock2(String name, Supplier<T> block, CreativeModeTab tab) {
         RegistryObject<T> toReturn = BLOCKS.register(name, block);
