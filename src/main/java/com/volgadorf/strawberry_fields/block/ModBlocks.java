@@ -24,8 +24,12 @@ public class ModBlocks {
             DeferredRegister.create(ForgeRegistries.BLOCKS, Main.MOD_ID);
 
     public static final RegistryObject<Block> CHEEMS_FULL = registerBlock2("cheems_full",
-            () -> new Cheems_Wheel_Block(BlockBehaviour.Properties.of(Material.WOOL).noOcclusion()
-                    .strength(1f)), ModCreativeModeTabs.VOLG_TAB);
+            () -> new Cheems_Wheel_Block(BlockBehaviour.Properties
+                    .of(Material.WOOL)
+                    .noOcclusion()
+                    .sound(SoundType.WOOL)
+                    .strength(1f))
+            , ModCreativeModeTabs.VOLG_TAB);
 
     public static final RegistryObject<Block> CUTTING_TABLE = registerBlock("cutting_table",
             () -> new CuttingTableBlock(BlockBehaviour.Properties.of(Material.BAMBOO)
@@ -43,8 +47,8 @@ public class ModBlocks {
                     () -> new KorestLogBlock(BlockBehaviour.Properties
                            // .copy(Blocks.WARPED_STEM)));
                             .of(Material.WOOD)
-                            .strength(2.0F)
-                            .sound(SoundType.STEM)
+                            .strength(1.5F)
+                            .sound(SoundType.WOOD)
                             .requiresCorrectToolForDrops()
                             .lightLevel((blockState) -> 7))
                     , ModCreativeModeTabs.VOLG_TAB2);
