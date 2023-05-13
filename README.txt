@@ -4,7 +4,7 @@ Now that I have a grasp on how all the packages are connected, here are all the 
 Foods:
 Edible Cheese Wheel (Completed)
 Cutting Board with Unique GUI (Completed)
-Rice Crop (WIP)
+Rice Crop (Completed)
 Sushi (Completed),
 Omelettes
 Calimari (using loot tables from squid)
@@ -15,6 +15,7 @@ Climate/Biomes:
 Temperature Meter
 Weather variants (wind)
 Coconut Trees
+Korest Trees (WIP)
 Hawaii trees
 Tropical Biome
 Lava Crop
