@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/leaves",
+  "textures": {
+    "all": "strawberry_fields:block/korest_leaves"
+  }
+}

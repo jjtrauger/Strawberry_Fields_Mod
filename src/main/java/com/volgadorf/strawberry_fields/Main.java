@@ -91,7 +91,11 @@ public class Main {
             event.accept(ModFoodItems.BOTTOMLESSBUCKET);
             event.accept(ModFoodItems.OFWB);
             event.accept(ModFoodItems.OFLB);
+        }
+
+        if(event.getTab() == ModCreativeModeTabs.VOLG_TAB4) {
             event.accept(ModBlocks.KOREST_LOG);
+            event.accept(ModBlocks.KOREST_LEAVES);
         }
     }
 

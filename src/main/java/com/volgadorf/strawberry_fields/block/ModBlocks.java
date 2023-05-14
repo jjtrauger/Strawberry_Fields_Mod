@@ -53,6 +53,16 @@ public class ModBlocks {
                             .lightLevel((blockState) -> 7))
                     , ModCreativeModeTabs.VOLG_TAB2);
 
+    public static final RegistryObject<Block> KOREST_LEAVES =
+            registerBlock("korest_leaves",
+                    () -> new MagicalLeaves(BlockBehaviour.Properties
+                            .of(Material.LEAVES)
+                            .sound(SoundType.AZALEA_LEAVES)
+                            .noOcclusion()
+                            .strength(1.0f)
+                            .lightLevel((blockState) -> 7))
+                    , ModCreativeModeTabs.VOLG_TAB2);
+
     private static <T extends Block> RegistryObject<T> registerBlock2(String name, Supplier<T> block, CreativeModeTab tab) {
         RegistryObject<T> toReturn = BLOCKS.register(name, block);
         registerBlockItem2(name, toReturn);

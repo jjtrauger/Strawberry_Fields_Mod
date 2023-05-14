@@ -1,5 +1,6 @@
 package com.volgadorf.strawberry_fields.block.custom;
 
+import com.volgadorf.strawberry_fields.block.ModBlocks;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleTypes;
@@ -8,7 +9,6 @@ import net.minecraft.tags.BlockTags;
 import net.minecraft.util.ParticleUtils;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.item.context.BlockPlaceContext;
-import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.block.Block;
@@ -20,26 +20,18 @@ import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.block.state.properties.IntegerProperty;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.material.Fluids;
-import net.minecraft.world.phys.shapes.Shapes;
-import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.NotNull;
 
 public class MagicalLeaves extends LeavesBlock {
-
-    public static final int DECAY_DISTANCE = 7;
     public static final IntegerProperty DISTANCE = BlockStateProperties.DISTANCE;
     public static final BooleanProperty PERSISTENT = BlockStateProperties.PERSISTENT;
     public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
-    private static final int TICK_DELAY = 1;
+
     public MagicalLeaves(Properties pProperties) {
         super(pProperties);
         this.registerDefaultState(this.stateDefinition.any().setValue(DISTANCE, 7).setValue(PERSISTENT, Boolean.FALSE).setValue(WATERLOGGED, Boolean.FALSE));
     }
 
-    @Override
-    public VoxelShape getBlockSupportShape(BlockState pState, BlockGetter pReader, BlockPos pPos) {
-        return Shapes.empty();
-    }
 
     /**
      * @return whether this block needs random ticking.
@@ -53,9 +45,8 @@ public class MagicalLeaves extends LeavesBlock {
      * Performs a random tick on a block.
      */
     @Override
-    public void randomTick(BlockState pState, ServerLevel pLevel, BlockPos pPos, RandomSource pRandom) {
+    public void randomTick(@NotNull BlockState pState, @NotNull ServerLevel pLevel, @NotNull BlockPos pPos, @NotNull RandomSource pRandom) {
         if (this.decaying(pState)) {
-            dropResources(pState, pLevel, pPos);
             pLevel.removeBlock(pPos, false);
         }
 
@@ -67,14 +58,10 @@ public class MagicalLeaves extends LeavesBlock {
     }
 
     @Override
-    public void tick(BlockState pState, ServerLevel pLevel, BlockPos pPos, RandomSource pRandom) {
+    public void tick(@NotNull BlockState pState, ServerLevel pLevel, @NotNull BlockPos pPos, @NotNull RandomSource pRandom) {
         pLevel.setBlock(pPos, updateDistance(pState, pLevel, pPos), 3);
     }
 
-    @Override
-    public int getLightBlock(BlockState pState, BlockGetter pLevel, BlockPos pPos) {
-        return 1;
-    }
 
     /**
      * Update the provided state given the provided neighbor direction and neighbor state, returning a new state.
@@ -82,19 +69,7 @@ public class MagicalLeaves extends LeavesBlock {
      * returns its solidified counterpart.
      * Note that this method should ideally consider only the specific direction passed in.
      */
-    @Override
-    public BlockState updateShape(BlockState pState, Direction pFacing, BlockState pFacingState, LevelAccessor pLevel, BlockPos pCurrentPos, BlockPos pFacingPos) {
-        if (pState.getValue(WATERLOGGED)) {
-            pLevel.scheduleTick(pCurrentPos, Fluids.WATER, Fluids.WATER.getTickDelay(pLevel));
-        }
 
-        int i = getDistanceAt(pFacingState) + 1;
-        if (i != 1 || pState.getValue(DISTANCE) != i) {
-            pLevel.scheduleTick(pCurrentPos, this, 1);
-        }
-
-        return pState;
-    }
 
 
     private static BlockState updateDistance(BlockState pState, LevelAccessor pLevel, BlockPos pPos) {
@@ -109,31 +84,41 @@ public class MagicalLeaves extends LeavesBlock {
             }
         }
 
-        return pState.setValue(DISTANCE, Integer.valueOf(i));
+        return pState.setValue(DISTANCE, i);
     }
 
     private static int getDistanceAt(BlockState pNeighbor) {
-        if (pNeighbor.is(BlockTags.LOGS)) {
+        if (pNeighbor.is(BlockTags.LOGS) || pNeighbor.is(ModBlocks.KOREST_LOG.get())) {
             return 0;
         } else {
+            //should work with magical leaves since they are an instance of LeavesBlock
             return pNeighbor.getBlock() instanceof LeavesBlock ? pNeighbor.getValue(DISTANCE) : 7;
         }
-    }
-
-    public @NotNull FluidState getFluidState(BlockState pState) {
-        return pState.getValue(WATERLOGGED) ? Fluids.WATER.getSource(false) : super.getFluidState(pState);
     }
 
     /**
      * Called periodically clientside on blocks near the player to show effects (like furnace fire particles).
      */
-    public void animateTick(BlockState pState, Level pLevel, BlockPos pPos, RandomSource pRandom) {
+    public void animateTick(@NotNull BlockState pState, Level pLevel, BlockPos pPos, @NotNull RandomSource pRandom) {
         if (pLevel.isRainingAt(pPos.above())) {
             if (pRandom.nextInt(15) == 1) {
                 BlockPos blockpos = pPos.below();
                 BlockState blockstate = pLevel.getBlockState(blockpos);
                 if (!blockstate.canOcclude() || !blockstate.isFaceSturdy(pLevel, blockpos, Direction.UP)) {
                     ParticleUtils.m_272037_(pLevel, pPos, pRandom, ParticleTypes.DRIPPING_WATER);
+                }
+            }
+        }
+        if (pRandom.nextInt(5) == 0) {
+            Direction direction = Direction.getRandom(pRandom);
+            if (direction != Direction.UP) {
+                BlockPos blockpos = pPos.relative(direction);
+                BlockState blockstate = pLevel.getBlockState(blockpos);
+                if (!pState.canOcclude() || !blockstate.isFaceSturdy(pLevel, blockpos, direction.getOpposite())) {
+                    double d0 = direction.getStepX() == 0 ? pRandom.nextDouble() : 0.5D + (double) direction.getStepX() * 0.6D;
+                    double d1 = direction.getStepY() == 0 ? pRandom.nextDouble() : 0.5D + (double) direction.getStepY() * 0.6D;
+                    double d2 = direction.getStepZ() == 0 ? pRandom.nextDouble() : 0.5D + (double) direction.getStepZ() * 0.6D;
+                    pLevel.addParticle(ParticleTypes.DRIPPING_OBSIDIAN_TEAR, (double) pPos.getX() + d0, (double) pPos.getY() + d1, (double) pPos.getZ() + d2, 0.0D, 0.0D, 0.0D);
                 }
             }
         }

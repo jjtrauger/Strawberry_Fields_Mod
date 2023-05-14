@@ -1,6 +1,7 @@
 package com.volgadorf.strawberry_fields.item;
 
 import com.volgadorf.strawberry_fields.Main;
+import com.volgadorf.strawberry_fields.block.ModBlocks;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.CreativeModeTab;
@@ -14,6 +15,8 @@ public class ModCreativeModeTabs {
     public static CreativeModeTab VOLG_TAB;
     public static CreativeModeTab VOLG_TAB2;
     public static CreativeModeTab VOLG_TAB3;
+
+    public static CreativeModeTab VOLG_TAB4;
 
 
     @SubscribeEvent
@@ -29,5 +32,9 @@ public class ModCreativeModeTabs {
         VOLG_TAB3 = event.registerCreativeModeTab(new ResourceLocation(Main.MOD_ID, "magic_stuff_tab"),
                 builder -> builder.icon(() -> new ItemStack(ModFoodItems.OFWB.get()))
                         .title(Component.translatable("creativemodetab.magic_stuff_tab")));
+
+        VOLG_TAB4 = event.registerCreativeModeTab(new ResourceLocation(Main.MOD_ID, "blocks_tab"),
+                builder -> builder.icon(() -> new ItemStack(ModBlocks.KOREST_LOG.get()))
+                        .title(Component.translatable("creativemodetab.blocks_tab")));
     }
 }
