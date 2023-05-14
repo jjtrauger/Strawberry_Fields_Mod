@@ -13,4 +13,6 @@ public class KorestLogBlock extends RotatedPillarBlock {
         this.registerDefaultState(this.defaultBlockState().setValue(AXIS, Direction.Axis.Y));
     }
 
+
+
 }
