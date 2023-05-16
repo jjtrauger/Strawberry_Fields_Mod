@@ -91,6 +91,7 @@ public class Main {
             event.accept(ModFoodItems.BOTTOMLESSBUCKET);
             event.accept(ModFoodItems.OFWB);
             event.accept(ModFoodItems.OFLB);
+            event.accept(ModFoodItems.SORCE);
         }
 
         if(event.getTab() == ModCreativeModeTabs.VOLG_TAB4) {
